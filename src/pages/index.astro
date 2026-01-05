@@ -1,8 +1,10 @@
 ---
 import AboutLayout from "@/layouts/AboutLayout.astro";
 import About from "./about.md";
-
-const { title, description } = About.frontmatter;
+const frontmatter = {
+  title: "About",
+  description: "About",
+};
 
 // Deprecated blog home (kept for later):
 // import { getCollection } from "astro:content";
@@ -25,7 +27,7 @@ const { title, description } = About.frontmatter;
 // const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 ---
 
-<AboutLayout frontmatter={{ title, description }}>
+<AboutLayout frontmatter={frontmatter}>
   <About />
 </AboutLayout>
 
