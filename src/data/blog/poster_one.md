@@ -6,8 +6,8 @@ slug: poster-particles
 featured: false
 draft: false
 tags:
-  - TypeScript
-  - Astro
+  - poster
+  - microparticles
 description:
   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
   incididunt ut labore et dolore magna aliqua. Praesent elementum facilisis leo vel
