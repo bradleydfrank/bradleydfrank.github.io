@@ -4,7 +4,7 @@ author: Bradley Frank
 pubDatetime: 2021-06-06T04:06:31Z
 slug: poster-particles
 featured: false
-draft: true
+draft: false
 tags:
   - TypeScript
   - Astro
@@ -14,7 +14,6 @@ description:
   fringilla est
 ---
 
-Users cannot see this post because it is in draft.
 
 ## Motivation
 
