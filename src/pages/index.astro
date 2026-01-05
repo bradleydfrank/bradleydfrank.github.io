@@ -1,24 +1,35 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
-import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+import AboutLayout from "@/layouts/AboutLayout.astro";
+import About from "./about.md";
 
-const posts = await getCollection("blog");
+const { title, description } = About.frontmatter;
 
-const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+// Deprecated blog home (kept for later):
+// import { getCollection } from "astro:content";
+// import Layout from "@/layouts/Layout.astro";
+// import Header from "@/components/Header.astro";
+// import Footer from "@/components/Footer.astro";
+// import Socials from "@/components/Socials.astro";
+// import LinkButton from "@/components/LinkButton.astro";
+// import Card from "@/components/Card.astro";
+// import getSortedPosts from "@/utils/getSortedPosts";
+// import IconRss from "@/assets/icons/IconRss.svg";
+// import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+// import { SITE } from "@/config";
+// import { SOCIALS } from "@/constants";
+//
+// const posts = await getCollection("blog");
+//
+// const sortedPosts = getSortedPosts(posts);
+// const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
+// const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 ---
 
+<AboutLayout frontmatter={{ title, description }}>
+  <About />
+</AboutLayout>
+
+{/*
 <Layout>
   <Header />
   <main id="main-content" data-layout="index" class="app-layout">
@@ -119,3 +130,4 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
     }
   });
 </script>
+*/}
