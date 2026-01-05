@@ -3,7 +3,7 @@ export const SITE = {
   author: "Bradley D. Frank",
   profile: "bradleydfrank.github.io",
   desc: "description",
-  title: "title",
+  title: "Bradley D. Frank, Dr. rer. nat.",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
