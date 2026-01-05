@@ -13,8 +13,6 @@ I am currently postdoctoral associate at the Massachusetts Institute of Technolo
 
 I did my doctoral work at the [Max Planck Institute of Colloids and Interfaces](https://www.mpikg.mpg.de/en).
 
-<div class="clear-both"></div>
-
 <video
   src="/videos/splash.mp4"
   autoplay
@@ -23,3 +21,5 @@ I did my doctoral work at the [Max Planck Institute of Colloids and Interfaces](
   playsinline
   class="my-6 w-full rounded-lg border border-border"
 ></video>
+
+<div class="clear-both"></div>
