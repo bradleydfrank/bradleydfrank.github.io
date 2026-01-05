@@ -3,8 +3,8 @@ layout: ../layouts/PageLayout.astro
 ---
 <img
   src="/images/profile.jpeg"
-  alt="Bradley D. Frank"
-  class="float-right ml-6 mb-4 w-40 rounded-lg border border-border"
+  alt="You're looking at an image of me."
+  class="float-right ml-6 mb-4 w-1/3 rounded-lg border border-border"
 />
 
 I am an experimentalist who is interested in multi-scale structure property relationships, and particularly with active materials, the flow of chemicals in and around materials, and their effect on living organisms. 
