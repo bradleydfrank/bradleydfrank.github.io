@@ -3,7 +3,7 @@ export const SITE = {
   author: "Bradley D. Frank",
   profile: "bradleydfrank.github.io",
   desc: "Research in dissipative living materials",
-  title: "Bradley D. Frank, Dr. rer. nat.",
+  title: "Bradley D. Frank",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 4,
