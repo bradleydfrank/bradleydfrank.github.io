@@ -2,7 +2,7 @@ export const SITE = {
   website: "https://bradleydfrank.github.io", // replace this with your deployed domain
   author: "Bradley D. Frank",
   profile: "bradleydfrank.github.io",
-  desc: "Research in dissipative living matter.",
+  desc: "Research in dissipative living materials",
   title: "Bradley D. Frank, Dr. rer. nat.",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
