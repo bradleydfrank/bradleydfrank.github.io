@@ -20,8 +20,6 @@ const isActive = (path: string) => {
   const currentPathArray = currentPath.split("/").filter(p => p.trim());
   const pathArray = path.split("/").filter(p => p.trim());
 
-  if (currentPath === "/" && path === "/about") return true;
-
   return currentPath === path || currentPathArray[0] === pathArray[0];
 };
 ---
@@ -87,11 +85,13 @@ const isActive = (path: string) => {
             </a>
           </li>
         */}
-        <li class="col-span-2">
-          <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
-            About
-          </a>
-        </li>
+        {/*
+          <li class="col-span-2">
+            <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
+              About
+            </a>
+          </li>
+        */}
         <li class="col-span-2">
           <a href="/cv" class:list={{ "active-nav": isActive("/cv") }}>
             CV

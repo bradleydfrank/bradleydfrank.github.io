@@ -1,10 +1,14 @@
 ---
-import AboutLayout from "@/layouts/AboutLayout.astro";
-import About from "./about.md";
-const frontmatter = {
-  title: "About",
-  description: "About",
-};
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+// Deprecated about-based home (kept for later):
+// import AboutLayout from "@/layouts/AboutLayout.astro";
+// import About from "./about.md";
+// const frontmatter = {
+//   title: "About",
+//   description: "About",
+// };
 
 // Deprecated blog home (kept for later):
 // import { getCollection } from "astro:content";
@@ -27,9 +31,38 @@ const frontmatter = {
 // const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 ---
 
+<Layout>
+  <Header />
+  <main id="main-content" class="app-layout">
+    <section class="app-prose mb-28 max-w-app">
+      <h1 class="text-2xl tracking-wider sm:text-3xl">
+        Bradley D. Frank, Dr. rer. nat.
+      </h1>
+      <p>
+        I am currently postdoctoral associate at the Massachusetts Institute of
+        Technology, in the Laboratory for Advanced Biopolymers of Benedetto
+        Marelli. I study effects of multi-scale organization on living
+        organisms.
+      </p>
+      <p>
+        I did my doctoral work at the Max Planck Institute of Colloids and
+        Interfaces.
+      </p>
+      <h2>Subheading</h2>
+      <ul>
+        <li>List</li>
+        <li>List 2</li>
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+{/*
 <AboutLayout frontmatter={frontmatter}>
   <About />
 </AboutLayout>
+*/}
 
 {/*
 <Layout>
