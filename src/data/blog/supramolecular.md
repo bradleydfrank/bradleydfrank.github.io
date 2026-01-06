@@ -1,7 +1,7 @@
 ---
 title: "Supramolecular"
 author: Bradley Frank
-pubDatetime: 2024-01-01T12:00:00Z
+pubDatetime: 2025-01-01T12:00:00Z
 slug: supramolecular
 ogImage: ../../assets/images/supramolecular.png
 featured: true

@@ -6,10 +6,15 @@ import Layout from "@/layouts/Layout.astro";
 import Main from "@/layouts/Main.astro";
 import { SITE } from "@/config";
 import { getPath } from "@/utils/getPath";
-import getSortedPosts from "@/utils/getSortedPosts";
 
-const posts = getSortedPosts(
-  await getCollection("blog", ({ data }) => !data.draft)
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) =>
+    Math.floor(
+      new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() / 1000
+    ) -
+    Math.floor(
+      new Date(a.data.modDatetime ?? a.data.pubDatetime).getTime() / 1000
+    )
 );
 
 const getOgImageSrc = (ogImage: unknown) => {
@@ -25,7 +30,7 @@ const isVideoFile = (src: string | undefined) =>
 
 <Layout title={`Gallery | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Gallery" pageDesc="Images and videos from my posts.">
+  <Main pageTitle="Gallery" pageDesc="A collection of images, videos, and other media I've made and collected. Click through for full-quality videos, and a description about when, why, or what you are looking at.">
     <ul class="grid grid-cols-1 gap-6 sm:grid-cols-3">
       {posts.map(post => {
         const href = getPath(post.id, post.filePath);

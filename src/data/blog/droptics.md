@@ -1,7 +1,7 @@
 ---
 title: "Fluorescence"
 author: Bradley Frank
-pubDatetime: 2024-01-01T12:00:00Z
+pubDatetime: 2022-02-01T12:00:00Z
 slug: droptics-image
 ogImage: ../../assets/images/droptics.png
 featured: true
