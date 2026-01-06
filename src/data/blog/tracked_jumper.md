@@ -1,19 +1,18 @@
 ---
-title: "Splash"
+title: "Tracked Jumper"
 author: Bradley Frank
 pubDatetime: 2024-01-01T12:00:00Z
-slug: splash
-featured: true
+slug: tracked-jumper
+featured: false
 draft: false
 tags:
   - video
-  - active matter
-description: "Incident light optical micrograph of air-in-water Pickering emulsions."
-previewVideo: "/videos/splash.mp4"
+description: "Tracked Jumper"
+previewVideo: "/videos/tracked_jumper.mp4"
 ---
 
 <video
-  src="/videos/splash.mp4"
+  src="/videos/tracked_jumper.mp4"
   controls
   muted
   loop

@@ -37,12 +37,13 @@ const isVideoFile = (src: string | undefined) =>
         return (
           <li class="group">
             <a href={href} class="block">
-              <div class="overflow-hidden rounded-lg border border-border bg-muted/20">
+              <div class="aspect-square overflow-hidden rounded-lg border border-border bg-muted/20">
                 {
                   isVideo ? (
                     <video
                       src={mediaSrc}
-                      class="h-auto w-full"
+                      class="h-full w-full object-cover"
+                      autoplay
                       muted
                       loop
                       playsinline
@@ -52,7 +53,7 @@ const isVideoFile = (src: string | undefined) =>
                     <img
                       src={mediaSrc}
                       alt={post.data.title}
-                      class="h-auto w-full"
+                      class="h-full w-full object-cover"
                       loading="lazy"
                     />
                   )

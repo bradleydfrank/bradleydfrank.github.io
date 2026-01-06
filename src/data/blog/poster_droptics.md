@@ -1,5 +1,5 @@
 ---
-title: "Poster: Ratiometric determination of droplet morphology defined luminescence as a sensing platform"
+title: "Poster: Droptics"
 author: Bradley Frank
 pubDatetime: 2022-01-01T12:00:00Z
 slug: poster-droptics

@@ -1,19 +1,18 @@
 ---
-title: "Splash"
+title: "Binary Gradients"
 author: Bradley Frank
 pubDatetime: 2024-01-01T12:00:00Z
-slug: splash
-featured: true
+slug: binary-gradient-particles
+featured: false
 draft: false
 tags:
   - video
-  - active matter
-description: "Incident light optical micrograph of air-in-water Pickering emulsions."
-previewVideo: "/videos/splash.mp4"
+description: "Binary Gradient Particles"
+previewVideo: "/videos/binary_gradient_particles.mp4"
 ---
 
 <video
-  src="/videos/splash.mp4"
+  src="/videos/binary_gradient_particles.mp4"
   controls
   muted
   loop

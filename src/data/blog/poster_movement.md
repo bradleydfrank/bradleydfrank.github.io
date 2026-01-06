@@ -1,5 +1,5 @@
 ---
-title: "Poster: Chemotaxis of Janus Emulsion Droplets"
+title: "Poster: Chemotaxis"
 #ogImage: "/assets/images/movement-poster.png"
 author: Bradley Frank
 pubDatetime: 2023-01-01T12:00:00Z

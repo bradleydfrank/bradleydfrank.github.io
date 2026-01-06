@@ -1,19 +1,18 @@
 ---
-title: "Splash"
+title: "Move"
 author: Bradley Frank
 pubDatetime: 2024-01-01T12:00:00Z
-slug: splash
-featured: true
+slug: cn-tilt-move
+featured: false
 draft: false
 tags:
   - video
-  - active matter
-description: "Incident light optical micrograph of air-in-water Pickering emulsions."
-previewVideo: "/videos/splash.mp4"
+description: "Cn Tilt Move"
+previewVideo: "/videos/cn_tilt_move.mp4"
 ---
 
 <video
-  src="/videos/splash.mp4"
+  src="/videos/cn_tilt_move.mp4"
   controls
   muted
   loop

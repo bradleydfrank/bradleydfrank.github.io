@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Jellies"
 author: Bradley Frank
 pubDatetime: 2021-01-01T12:00:00Z
 slug: jellies

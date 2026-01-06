@@ -1,19 +1,18 @@
 ---
-title: "Splash"
+title: "Droptics Simulation"
 author: Bradley Frank
 pubDatetime: 2024-01-01T12:00:00Z
-slug: splash
-featured: true
+slug: droptics-simulation
+featured: false
 draft: false
 tags:
   - video
-  - active matter
-description: "Incident light optical micrograph of air-in-water Pickering emulsions."
-previewVideo: "/videos/splash.mp4"
+description: "Droptics Simulation"
+previewVideo: "/videos/droptics_simulation.mov"
 ---
 
 <video
-  src="/videos/splash.mp4"
+  src="/videos/droptics_simulation.mov"
   controls
   muted
   loop

@@ -1,5 +1,5 @@
 ---
-title: "Poster: Dynamic Complex Emulsions as Functional Particle Templates"
+title: "Poster: Particles"
 author: Bradley Frank
 pubDatetime: 2021-01-01T12:00:00Z
 slug: poster-particles
