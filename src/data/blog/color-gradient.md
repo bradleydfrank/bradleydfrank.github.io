@@ -1,7 +1,7 @@
 ---
 title: "Gradient(s)"
 author: Bradley Frank
-pubDatetime: 2024-01-01T12:00:00Z
+pubDatetime: 2023-06-01T12:00:00Z
 slug: color-gradient-image
 ogImage: ../../assets/images/color-gradient.jpg
 featured: true

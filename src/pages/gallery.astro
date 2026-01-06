@@ -30,7 +30,7 @@ const isVideoFile = (src: string | undefined) =>
 
 <Layout title={`Gallery | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Gallery" pageDesc="A collection of images, videos, and other media I've made and collected. Click through for full-quality videos, and a description about when, why, or what you are looking at.">
+  <Main pageTitle="Gallery" pageDesc="A collection of mostly-scientific images, videos, and other media I've created. Click through for full-quality videos, and a description about when, why, or what you are looking at.">
     <ul class="grid grid-cols-1 gap-6 sm:grid-cols-3">
       {posts.map(post => {
         const href = getPath(post.id, post.filePath);
@@ -72,6 +72,7 @@ const isVideoFile = (src: string | undefined) =>
         );
       })}
     </ul>
+    <p class="mt-8 text-center italic">"An idea is a work of art."</p>
   </Main>
   <Footer />
 </Layout>
