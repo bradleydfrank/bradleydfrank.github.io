@@ -11,7 +11,7 @@ tags:
 description: "I made this poster to present my work on droplets as particle templates."
 ---
 
-# Microplastics in the Modern Era
+# Templating particles with bucket-ready synthesis
 This is a poster I made to represent some of the highlights in templating particles. There are three main ideas on making particles explored. 
 
 Firstly, is the [polymerization of one droplet phase](https://pubs.acs.org/doi/full/10.1021/acs.macromol.0c02152), with one sacrificial phase (either the hydrocarbon, or fluorocarbon oil). By including a water-soluble acrylate in the water phase, i was able to simply functionalize the hydrocarbon-water interface.

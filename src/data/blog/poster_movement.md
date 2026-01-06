@@ -18,5 +18,7 @@ If you point two interfacial tension gradients on opposite directions, the Maran
 
 On this poster is some of this work, alongside some early work with the [photocharging of carbon nitride films](https://pubs.acs.org/doi/full/10.1021/jacs.3c09084) to induce active and adaptive behaviors.
 
+I had some fun with QR codes linking to videos on this poster, they might even still work.
+
 [![Poster preview](/posters/movement-poster.png)](/posters/movement-poster.pdf)
 Click the poster to view the full-size PDF.
