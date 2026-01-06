@@ -3,11 +3,14 @@ title: "Poster: Dynamic Complex Emulsions as Functional Particle Templates"
 author: Bradley Frank
 pubDatetime: 2021-01-01T12:00:00Z
 slug: poster-particles
-featured: false
+ogImage: ../../assets/images/particles-poster.png
+featured: true
 draft: false
 tags:
   - poster
   - particles
+  - templated hydrogel particles
+  - pickering
 description: "I made this poster to present my work on droplets as particle templates."
 ---
 

@@ -3,11 +3,15 @@ title: "Poster: Ratiometric determination of droplet morphology defined luminesc
 author: Bradley Frank
 pubDatetime: 2022-01-01T12:00:00Z
 slug: poster-droptics
-featured: false
+#ogImage: "/assets/images/droptics-poster.png"
+ogImage: ../../assets/images/droptics-poster.png
+featured: true
 draft: false
 tags:
   - poster
   - droplet optics
+  - sensing
+  - fluorescence
 description: "I made this poster to present my work on droplet optical effects."
 ---
 

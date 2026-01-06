@@ -19,8 +19,8 @@ title: "Brief Curriculum Vitae"
 - [The University of California, Merced](https://www.ucmerced.edu)
 - 2013 - 2017
 
-## Some Publications
-These are some my published first author publications, with a few more in preparation.
+## Selected Publications
+These are some my published first author publications [(the rest can be found here)](https://scholar.google.com/citations?user=8dkFid4AAAAJ), with a few more in preparation.
 
 [__Reversible Phase Transitions of Anionic and Cationic Surfactant Mixtures Drive Shape Morphing Droplets__](https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/adma.202506100)  
 __Bradley D Frank__, Pilar Romero, Alberto Concellón, Lukas Zeininger  
@@ -44,12 +44,12 @@ __Bradley D Frank__, Milena Perovic, Saveh Djalali, Markus Antonietti, Martin Os
 _ACS Applied Materials & Interfaces_ 2021
 
 
-## Some Awards & Fellowships
+## Selected Awards & Fellowships
 - MIT CEE Postdoctoral Scholar Mentoring, Teaching and Excellence Award (2025) [(Article)](https://cee.mit.edu/cee-awards-and-honors-2025/)
-- Poster Award - MPIKG 30th Anniversary [_Droplet Optics: From Responsive Emulsions to Pathogen Sensors_](posts/poster-droptics/) (2023)
-- Outstanding Poster Award - Gordon Research Conference, Complex and Adaptive Material Systems. [_Reversible Chemotaxis of Janus Emulsion Droplets_](posts/poster-movement/) (2023)
+- Poster Award - MPIKG 30th Anniversary [_Droplet Optics: From Responsive Emulsions to Pathogen Sensors_](/posts/poster-droptics/) (2023)
+- Outstanding Poster Award - Gordon Research Conference, Complex and Adaptive Material Systems. [_Reversible Chemotaxis of Janus Emulsion Droplets_](/posts/poster-movement/) (2023)
 - Max Planck Institute of Colloids and Interfaces 30th Anniversary Science Slam Award. _The Dynamic Nature of (a Droplet’s) Internal Struggle_ (2023)
-- 1st Place Poster Prize - Particle Based Materials Conference. [_Complex Emulsions as All-in-one Particle Templates_](posts/poster-particles/) (2022)
-- 1st Place Poster Prize - GDCh Makro [_Reversible Chemotaxis of Reconfigurable Droplets_](posts/poster-movement/) (2022)
-- Poster Prize - 17th Zsigmondy Colloquium [_Dynamic Complex Emulsions as Functional Particle Templates_](posts/poster-particles/)  (2022)
-- Research Fellowship _Merced Nanomaterials Center for Enegery and Sensing_ (2015, 2016)
+- 1st Place Poster Prize - Particle Based Materials Conference. [_Complex Emulsions as All-in-one Particle Templates_](/posts/poster-particles/) (2022)
+- 1st Place Poster Prize - GDCh Makro [_Reversible Chemotaxis of Reconfigurable Droplets_](/posts/poster-movement/) (2022)
+- Poster Prize - 17th Zsigmondy Colloquium [_Dynamic Complex Emulsions as Functional Particle Templates_](/posts/poster-particles/)  (2022)
+- Research Fellowship _Merced Nanomaterials Center for Energy and Sensing_ (2015, 2016)

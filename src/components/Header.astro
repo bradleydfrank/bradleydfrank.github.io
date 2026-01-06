@@ -89,6 +89,11 @@ const isActive = (path: string) => {
           </a>
         </li>
         <li class="col-span-2">
+          <a href="/gallery" data-astro-reload class:list={{ "active-nav": isActive("/gallery") }}>
+            Gallery
+          </a>
+        </li>
+        <li class="col-span-2">
           <a href="/posts" data-astro-reload class:list={{ "active-nav": isActive("/posts") }}>
             Things
           </a>

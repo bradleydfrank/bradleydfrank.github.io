@@ -1,13 +1,17 @@
 ---
 title: "Poster: Chemotaxis of Janus Emulsion Droplets"
+#ogImage: "/assets/images/movement-poster.png"
 author: Bradley Frank
 pubDatetime: 2023-01-01T12:00:00Z
 slug: poster-movement
-featured: false
+ogImage: ../../assets/images/movement-poster.png
+featured: true
 draft: false
 tags:
   - poster
   - chemotaxis
+  - movement
+  - active matter
 description: "I made this poster to present my work on adaptive movement of Janus droplets."
 ---
 

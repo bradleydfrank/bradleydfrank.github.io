@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content";
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Layout from "@/layouts/Layout.astro";
+import Main from "@/layouts/Main.astro";
+import { SITE } from "@/config";
+import { getPath } from "@/utils/getPath";
+import getSortedPosts from "@/utils/getSortedPosts";
+
+const posts = getSortedPosts(
+  await getCollection("blog", ({ data }) => !data.draft)
+);
+
+const getOgImageSrc = (ogImage: unknown) => {
+  if (!ogImage) return undefined;
+  if (typeof ogImage === "string") return ogImage;
+  if (typeof ogImage === "object" && "src" in ogImage) return ogImage.src as string;
+  return undefined;
+};
+
+const isVideoFile = (src: string | undefined) =>
+  !!src && /\.(mp4|webm|ogg)$/i.test(src);
+---
+
+<Layout title={`Gallery | ${SITE.title}`}>
+  <Header />
+  <Main pageTitle="Gallery" pageDesc="Images and videos from my posts.">
+    <ul class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+      {posts.map(post => {
+        const href = getPath(post.id, post.filePath);
+        const ogImageSrc = getOgImageSrc(post.data.ogImage);
+        const videoSrc = post.data.previewVideo;
+        const mediaSrc = videoSrc ?? ogImageSrc ?? `${href}/index.png`;
+        const isVideo = isVideoFile(videoSrc);
+
+        return (
+          <li class="group">
+            <a href={href} class="block">
+              <div class="overflow-hidden rounded-lg border border-border bg-muted/20">
+                {
+                  isVideo ? (
+                    <video
+                      src={mediaSrc}
+                      class="h-auto w-full"
+                      muted
+                      loop
+                      playsinline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <img
+                      src={mediaSrc}
+                      alt={post.data.title}
+                      class="h-auto w-full"
+                      loading="lazy"
+                    />
+                  )
+                }
+              </div>
+              <div class="mt-2 text-sm font-medium text-foreground group-hover:text-accent">
+                {post.data.title}
+              </div>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </Main>
+  <Footer />
+</Layout>
