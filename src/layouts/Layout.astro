@@ -134,6 +134,31 @@ const structuredData = {
   </head>
   <body>
     <slot />
+    <script is:inline>
+      const setReloadOnVideoLinks = () => {
+        if (!document.querySelector("video")) return;
+
+        document.querySelectorAll("a[href]").forEach(anchor => {
+          const href = anchor.getAttribute("href");
+          if (!href) return;
+          if (href.startsWith("#")) return;
+          if (href.startsWith("mailto:")) return;
+          if (href.startsWith("tel:")) return;
+          if (href.startsWith("javascript:")) return;
+
+          try {
+            const url = new URL(href, window.location.origin);
+            if (url.origin !== window.location.origin) return;
+            anchor.setAttribute("data-astro-reload", "");
+          } catch {
+            // Ignore invalid URLs.
+          }
+        });
+      };
+
+      document.addEventListener("astro:page-load", setReloadOnVideoLinks);
+      setReloadOnVideoLinks();
+    </script>
   </body>
 </html>
 
