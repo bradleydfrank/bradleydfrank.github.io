@@ -75,6 +75,12 @@ const isActive = (path: string) => {
       >
         {/* When pages include video, use data-astro-reload to avoid broken media on back/forward. */}
         <li class="col-span-2">
+          <a href="/gallery" data-astro-reload class:list={{ "active-nav": isActive("/gallery") }}>
+            Gallery
+          </a>
+        </li>
+        {/*
+        <li class="col-span-2">
           <a
             href="/research"
             data-astro-reload
@@ -83,14 +89,10 @@ const isActive = (path: string) => {
             Research
           </a>
         </li>
+        */}
         <li class="col-span-2">
           <a href="/cv" data-astro-reload class:list={{ "active-nav": isActive("/cv") }}>
             CV
-          </a>
-        </li>
-        <li class="col-span-2">
-          <a href="/gallery" data-astro-reload class:list={{ "active-nav": isActive("/gallery") }}>
-            Gallery
           </a>
         </li>
         <li class="col-span-2">
