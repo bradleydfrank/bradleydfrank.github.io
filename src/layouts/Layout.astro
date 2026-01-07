@@ -156,8 +156,20 @@ const structuredData = {
         });
       };
 
-      document.addEventListener("astro:page-load", setReloadOnVideoLinks);
-      setReloadOnVideoLinks();
+      const refreshVideos = () => {
+        document.querySelectorAll("video").forEach(video => {
+          // Re-trigger resource selection after client-side navigation.
+          video.load();
+        });
+      };
+
+      const handlePageLoad = () => {
+        setReloadOnVideoLinks();
+        refreshVideos();
+      };
+
+      document.addEventListener("astro:page-load", handlePageLoad);
+      handlePageLoad();
     </script>
   </body>
 </html>
