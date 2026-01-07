@@ -13,4 +13,4 @@ description: "Polarized light micrograph of SDS-AzoTAB."
 
 ![Supramolecular assembly of SDS and AzoTAB](/images/supramolecular.png)
 
-My favorite polarized light micrograph taken of the supramolecualr assembly between SDS and AzoTAB in [this paper](https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/adma.202506100)
+My favorite polarized light micrograph taken of the supramolecualr assembly between SDS and AzoTAB in [this paper](https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/adma.202506100).
