@@ -26,7 +26,6 @@ These are some my published first author publications [(the rest can be found he
 __Bradley D Frank__, Pilar Romero, Alberto Concellón, Lukas Zeininger  
 _Advanced Materials_ 2025
 
-
 [__Photocharging of carbon nitride thin films for controllable manipulation of droplet force gradient sensors__](https://pubs.acs.org/doi/full/10.1021/jacs.3c09084) [(Poster)](/posts/poster-movement/)  
 __Bradley D Frank__, Markus Antonietti, Paolo Giusto, Lukas Zeininger  
 _Journal of the American Chemical Society_ 2023
