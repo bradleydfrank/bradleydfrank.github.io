@@ -13,4 +13,4 @@ description: "Scanning electron micrograph of a porous particle."
 
 ![A little rocket leaves the moon.](/images/rocket.jpg)
 
-One of the first decent scanning electron micrographs I took, with artistic flair credited to [Viktoria Landers](https://www.foxcrowstudio.de/portfolio).
+One of the first decent scanning electron micrographs I took, with artistic flair credited to [artist Viktoria Landers](https://www.foxcrowstudio.de/portfolio).

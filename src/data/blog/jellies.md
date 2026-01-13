@@ -8,7 +8,7 @@ featured: true
 draft: false
 tags:
   - image
-description: "Scanning electron micrograph of lune-shaped Janus particles."
+description: "Scanning electron micrograph of anisotropic Janus particles."
 ---
 
 ![Microparticles with attachment issues.](/images/jellies.jpg)
