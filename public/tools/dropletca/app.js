@@ -27,8 +27,17 @@
   var MARKER_HIT = 11;        // CSS px within which a click selects a droplet
   var CLICK_SLOP = 5;         // CSS px of movement still treated as a click
   var STORE_KEY = 'dropletca.settings.v2';
-  var EXAMPLE_URL = 'example/janus-droplets.jpg';
   var EXAMPLE_NAME = 'janus-droplets.jpg (example)';
+
+  /* Where the bundled example lives. Relative by default, so the standalone
+     page works from any directory including file://. A host page that serves
+     the assets from elsewhere can override it with data-example-url on the
+     app root. */
+  function exampleURL() {
+    var root = document.querySelector('[data-example-url]');
+    return (root && root.getAttribute('data-example-url')) ||
+      'example/janus-droplets.jpg';
+  }
 
   /* Internal mode ids are kept short ('janus' / 'snowman') because the geometry
      module and its regression tests are keyed on them. Everything the user sees
@@ -77,6 +86,8 @@
 
   var el = {};
   var viewer;
+  var globalsBound = false;   // window/document listeners are attached once
+  var stageObserver = null;
 
   // ------------------------------------------------------------------ helpers
 
@@ -1394,6 +1405,84 @@
 
   // ------------------------------------------------------------------- wiring
 
+  /*
+   * Listeners that live on window or document rather than on the app's own
+   * elements. They close over `el` and `viewer`, both of which are re-pointed
+   * by init(), so they keep working after the host page swaps the DOM — but
+   * they must only ever be attached once.
+   */
+  function bindGlobals() {
+    if (globalsBound) return;
+    globalsBound = true;
+
+    // Dropping anywhere outside the stage should not navigate away from the app.
+    window.addEventListener('dragover', function (ev) { ev.preventDefault(); });
+    window.addEventListener('drop', function (ev) { ev.preventDefault(); });
+
+    window.addEventListener('paste', function (ev) {
+      if (!viewer) return;
+      var items = ev.clipboardData && ev.clipboardData.items;
+      if (!items) return;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file' && /^image\//.test(items[i].type)) {
+          var f = items[i].getAsFile();
+          if (f) { loadFile(f); ev.preventDefault(); return; }
+        }
+      }
+    });
+
+    window.addEventListener('keydown', function (ev) {
+      if (!viewer || !el.canvas) return;
+      var t = ev.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
+      if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
+
+      if (ev.code === 'Space' && !spaceHeld) {
+        spaceHeld = true;
+        el.canvas.classList.add('is-pan-ready');
+        ev.preventDefault();
+        return;
+      }
+      if (ev.key === 'Enter') { recordMeasurement(); ev.preventDefault(); return; }
+      if (ev.key === 'Escape') {
+        if (s.tool !== 'points') setTool('points');
+        else if (s.points.length) clearPoints();
+        else if (s.selected >= 0) selectDroplet(-1, false);
+        return;
+      }
+      if (ev.key === 'ArrowDown') { stepSelection(1); ev.preventDefault(); return; }
+      if (ev.key === 'ArrowUp') { stepSelection(-1); ev.preventDefault(); return; }
+      if (ev.key === '+' || ev.key === '=') { viewer.zoomBy(1.3); return; }
+      if (ev.key === '-' || ev.key === '_') { viewer.zoomBy(1 / 1.3); return; }
+
+      switch (ev.key.toLowerCase()) {
+        case 'z': undoPoint(); ev.preventDefault(); break;
+        case 'f': viewer.fit(); break;
+        case 'r': transformImage('cw'); break;
+        case 'v': transformImage('flipV'); break;
+        case 'm': setMode(s.mode === 'janus' ? 'snowman' : 'janus'); break;
+        case 'p': setTool(s.tool === 'pan' ? 'points' : 'pan'); break;
+        case 'l': el.labelsBtn.click(); break;
+      }
+    });
+
+    window.addEventListener('keyup', function (ev) {
+      if (ev.code === 'Space' && el.canvas) {
+        spaceHeld = false;
+        el.canvas.classList.toggle('is-pan-ready', s.tool === 'pan');
+      }
+    });
+
+    window.addEventListener('resize', function () {
+      if (viewer) viewer.resize();
+    });
+    window.addEventListener('orientationchange', function () {
+      setTimeout(function () {
+        if (viewer) { viewer.resize(); viewer.fit(); }
+      }, 200);
+    });
+  }
+
   function bindNumber(input, key) {
     input.addEventListener('input', function () {
       var v = parseFloat(input.value);
@@ -1437,7 +1526,7 @@
     el.newImageBtn.addEventListener('click', pickFile);
     el.exampleBtn.addEventListener('click', function (ev) {
       ev.stopPropagation();
-      loadURL(EXAMPLE_URL, EXAMPLE_NAME);
+      loadURL(exampleURL(), EXAMPLE_NAME);
     });
     el.dropzone.addEventListener('click', function (ev) {
       if (ev.target === el.dropzone || ev.target.classList.contains('frame')) pickFile();
@@ -1459,20 +1548,7 @@
       var dt = ev.dataTransfer;
       if (dt && dt.files && dt.files.length) loadFile(dt.files[0]);
     });
-    // Dropping anywhere outside the stage should not navigate away from the app.
-    window.addEventListener('dragover', function (ev) { ev.preventDefault(); });
-    window.addEventListener('drop', function (ev) { ev.preventDefault(); });
-
-    window.addEventListener('paste', function (ev) {
-      var items = ev.clipboardData && ev.clipboardData.items;
-      if (!items) return;
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file' && /^image\//.test(items[i].type)) {
-          var f = items[i].getAsFile();
-          if (f) { loadFile(f); ev.preventDefault(); return; }
-        }
-      }
-    });
+    bindGlobals();
 
     // --- canvas interaction ---
     el.canvas.addEventListener('pointerdown', onPointerDown);
@@ -1549,55 +1625,14 @@
       viewer.render();
     });
 
-    // --- keyboard ---
-    window.addEventListener('keydown', function (ev) {
-      var t = ev.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) return;
-      if (ev.metaKey || ev.ctrlKey || ev.altKey) return;
-
-      if (ev.code === 'Space' && !spaceHeld) {
-        spaceHeld = true;
-        el.canvas.classList.add('is-pan-ready');
-        ev.preventDefault();
-        return;
-      }
-      if (ev.key === 'Enter') { recordMeasurement(); ev.preventDefault(); return; }
-      if (ev.key === 'Escape') {
-        if (s.tool !== 'points') setTool('points');
-        else if (s.points.length) clearPoints();
-        else if (s.selected >= 0) selectDroplet(-1, false);
-        return;
-      }
-      if (ev.key === 'ArrowDown') { stepSelection(1); ev.preventDefault(); return; }
-      if (ev.key === 'ArrowUp') { stepSelection(-1); ev.preventDefault(); return; }
-      if (ev.key === '+' || ev.key === '=') { viewer.zoomBy(1.3); return; }
-      if (ev.key === '-' || ev.key === '_') { viewer.zoomBy(1 / 1.3); return; }
-
-      switch (ev.key.toLowerCase()) {
-        case 'z': undoPoint(); ev.preventDefault(); break;
-        case 'f': viewer.fit(); break;
-        case 'r': transformImage('cw'); break;
-        case 'v': transformImage('flipV'); break;
-        case 'm': setMode(s.mode === 'janus' ? 'snowman' : 'janus'); break;
-        case 'p': setTool(s.tool === 'pan' ? 'points' : 'pan'); break;
-        case 'l': el.labelsBtn.click(); break;
-      }
-    });
-    window.addEventListener('keyup', function (ev) {
-      if (ev.code === 'Space') {
-        spaceHeld = false;
-        el.canvas.classList.toggle('is-pan-ready', s.tool === 'pan');
-      }
-    });
-
-    // --- resize ---
+    // --- stage resize ---
+    // Re-created per init because the stage element itself is replaced when the
+    // host page swaps the DOM; the previous observer is dropped first.
     if (typeof ResizeObserver !== 'undefined') {
-      new ResizeObserver(function () { viewer.resize(); }).observe(el.stage);
+      if (stageObserver) stageObserver.disconnect();
+      stageObserver = new ResizeObserver(function () { viewer.resize(); });
+      stageObserver.observe(el.stage);
     }
-    window.addEventListener('resize', function () { viewer.resize(); });
-    window.addEventListener('orientationchange', function () {
-      setTimeout(function () { viewer.resize(); viewer.fit(); }, 200);
-    });
 
     var riLink = $('riNoteLink');
     if (riLink) {
@@ -1614,9 +1649,25 @@
     updateControls();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
+  /*
+   * Start up, or start up again against fresh markup. Safe to call repeatedly:
+   * element listeners are rebound to the current DOM, window listeners are
+   * attached only once, and measurements are reset with the markup.
+   */
+  function start() {
+    if (!document.getElementById('canvas')) return;   // not on a page with the app
     init();
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+
+  // Astro's client-side router swaps the DOM without reloading the page, so the
+  // script is not re-executed and DOMContentLoaded never fires again.
+  document.addEventListener('astro:page-load', start);
+
+  window.DropletCA = { start: start };
 })();

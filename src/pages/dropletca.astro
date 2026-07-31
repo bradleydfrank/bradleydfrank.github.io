@@ -1,0 +1,323 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import { SITE } from "@/config";
+import "@/styles/dropletca.css";
+
+// The tool's runtime lives in public/tools/dropletca/ and is copied verbatim
+// from the DropletCA repository. Only the markup and stylesheet are adapted
+// here, so the measurement code stays identical to the standalone version.
+const TOOL = "/tools/dropletca";
+
+const title = "Droplet contact angle";
+const description =
+  "Contact angle and volume ratio for Janus droplets, measured in your browser. " +
+  "Nothing is uploaded — the image never leaves your machine.";
+---
+
+<Layout title={`${title} | ${SITE.title}`} description={description}>
+  <Header />
+  <Breadcrumb />
+
+  <main id="main-content" class="dca-page mx-auto w-full px-4 pb-6">
+    <h1 class="text-2xl font-semibold sm:text-3xl">{title}</h1>
+    <p class="mt-2 mb-6 italic">
+      Six clicks per droplet. Everything runs in this tab — your image is never
+      uploaded, and no server ever sees it.
+    </p>
+
+    <!-- ---------- the tool ---------- -->
+    <div class="dca" data-example-url={`${TOOL}/example/janus-droplets.jpg`}>
+      <div class="app">
+        <div class="topbar">
+          <div class="brand">
+            <span class="tag" id="imageName">
+              contact angle &amp; volume ratio for Janus droplets
+            </span>
+          </div>
+          <div class="spacer"></div>
+          <div class="segmented" role="group" aria-label="Droplet type">
+            <button type="button" id="modeJanus" aria-pressed="true">
+              Spherical Janus
+            </button>
+            <button type="button" id="modeSnowman" aria-pressed="false">
+              Non-spherical Janus
+            </button>
+          </div>
+        </div>
+
+        <div class="workspace">
+          <section class="stage" id="stage">
+            <canvas id="canvas" class="is-empty"></canvas>
+
+            <div class="dropzone" id="dropzone">
+              <div class="frame">
+                <h2>Drop a droplet image here</h2>
+                <p>
+                  or <button type="button" class="btn" id="browseBtn">
+                    choose a file
+                  </button> &middot; or paste from the clipboard
+                </p>
+                <p class="example-line">
+                  Or <button type="button" class="linkish" id="exampleBtn">
+                    try an example
+                  </button>
+                </p>
+                <p class="privacy">
+                  Everything runs in this browser tab. Your image is never
+                  uploaded, and no server ever sees it.
+                </p>
+              </div>
+            </div>
+
+            <div class="toolbar hidden" id="toolbar">
+              <button type="button" class="tool" id="panTool" aria-pressed="false" title="Drag to pan (or just drag the background any time)">Pan</button>
+              <button type="button" class="tool" id="scaleTool" aria-pressed="false" title="Drag a line across a known length to calibrate">Set scale</button>
+              <button type="button" class="tool" id="zoomOutBtn" title="Zoom out">&minus;</button>
+              <button type="button" class="tool" id="zoomInBtn" title="Zoom in">+</button>
+              <button type="button" class="tool" id="fitBtn" title="Fit image to window">Fit <kbd>F</kbd></button>
+              <button type="button" class="tool" id="rotBtn" title="Rotate 90&deg; clockwise">Rotate <kbd>R</kbd></button>
+              <button type="button" class="tool" id="flipBtn" title="Flip vertically — swaps which phase is on top">Flip</button>
+              <button type="button" class="tool" id="labelsBtn" aria-pressed="true" title="Draw the result labels onto the image (included in the PNG export)">Labels</button>
+              <button type="button" class="tool" id="undoBtn" title="Remove the last point">Undo <kbd>Z</kbd></button>
+              <button type="button" class="tool" id="clearBtn" title="Remove all points">Clear <kbd>Esc</kbd></button>
+              <button type="button" class="tool" id="newImageBtn" title="Open a different image">Open&hellip;</button>
+            </div>
+
+            <div class="statusbar hidden" id="statusbar">
+              <div class="status-pill" id="hint"></div>
+              <div class="status-pill zoom" id="zoomPill"></div>
+            </div>
+          </section>
+
+          <aside class="panel">
+            <section class="section">
+              <h3>Results</h3>
+              <div id="results">
+                <p class="placeholder" id="resultsPlaceholder">
+                  Load an image, then click <strong>3 points on the outer droplet
+                  edge</strong> followed by <strong>3 points on the inner
+                  interface</strong>. Circles are fitted through each triplet;
+                  drag any point afterwards to refine it, then press
+                  <strong>Enter</strong> to accept the droplet and start the next.
+                </p>
+              </div>
+            </section>
+
+            <section class="section" id="opticsSection">
+              <h3>Refractive indices</h3>
+              <div class="field-row">
+                <div class="field">
+                  <label for="nUpper">n (upper)</label>
+                  <input type="number" id="nUpper" value="1.33" step="0.001" min="0.1" max="4" />
+                </div>
+                <div class="field">
+                  <label for="nLower">n (lower)</label>
+                  <input type="number" id="nLower" value="1.33" step="0.001" min="0.1" max="4" />
+                </div>
+                <div class="field">
+                  <label for="nCont">n (cont.)</label>
+                  <input type="number" id="nCont" value="1.33" step="0.001" min="0.1" max="4" />
+                </div>
+              </div>
+              <label class="checkline" for="riConsistent">
+                <input type="checkbox" id="riConsistent" />
+                <span>
+                  Use corrected law of cosines. The MATLAB app scaled only the
+                  numerator by n<sub>cont</sub>/n<sub>phase</sub>; this also scales
+                  the denominator. Both agree when the indices are equal.
+                  <a href="#riNote" id="riNoteLink">Details</a>
+                </span>
+              </label>
+            </section>
+
+            <section class="section">
+              <h3>Scale</h3>
+              <div class="field-row">
+                <div class="field" style="flex:2">
+                  <label for="umPerPx">Micrometres per pixel</label>
+                  <input type="number" id="umPerPx" step="0.0001" min="0" placeholder="blank = report in pixels" />
+                </div>
+                <button type="button" class="btn" id="scaleBtn">Set by line&hellip;</button>
+              </div>
+              <p class="hint-text" id="scaleHint">
+                Leave blank to work in pixels. Ratios (contact angle,
+                V<sub>upper</sub>/V<sub>lower</sub>, Janus ratio) are scale-free
+                and unaffected either way.
+              </p>
+            </section>
+
+            <section class="section">
+              <h3>Droplets</h3>
+              <div id="tableArea"></div>
+              <div class="btn-row stretch" style="margin-top:9px">
+                <button type="button" class="btn primary" id="recordBtn" disabled title="Accept this droplet and start the next one (Enter)">Accept &amp; next</button>
+                <button type="button" class="btn" id="csvBtn" disabled>CSV</button>
+                <button type="button" class="btn" id="pngBtn" disabled title="Download the image with the overlay drawn on it">PNG</button>
+              </div>
+              <div class="btn-row" style="margin-top:7px">
+                <button type="button" class="btn" id="copyBtn" disabled>Copy summary</button>
+                <button type="button" class="btn" id="clearRunsBtn" disabled>Clear all</button>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" class="sr-only" aria-hidden="true" tabindex="-1" />
+    <div class="sr-only" role="status" aria-live="polite" id="srStatus"></div>
+
+    <!-- ---------- notes, in the site's own voice ---------- -->
+    <section class="dca-notes mt-8">
+      <h2 class="text-lg font-semibold">How it works</h2>
+
+      <p>
+        Each set of three clicks defines exactly one circle. The first triplet is
+        the outer droplet boundary, the second the internal interface between the
+        two phases. Everything else — contact angle, volumes, surface areas —
+        follows in closed form from those two circles and the distance between
+        their centres.
+      </p>
+
+      <h3 id="orientation" class="font-semibold">Upper and lower phases</h3>
+      <p>
+        Results are reported for the <strong>upper</strong> and <strong>lower</strong>
+        side of the droplet, named for where they sit in the image rather than for
+        what they are made of. The tool assumes the droplet is
+        <strong>aligned with gravity</strong> and imaged from the side, so the
+        denser phase settles below the lighter one and the symmetry axis runs
+        vertically in the frame.
+      </p>
+      <p>
+        So the upper phase might be a hydrocarbon or a silicone, and the lower one
+        a fluorocarbon — but equally a polymer, or any other denser phase. Nothing
+        in the calculation depends on the chemistry, only on which side is which.
+        Use <strong>Flip</strong> if your image is upside down relative to the
+        physical setup.
+      </p>
+
+      <h3 id="riNote" class="font-semibold">Refractive-index correction</h3>
+      <p>
+        The internal interface is viewed <em>through</em> the curved outer surface
+        of the droplet, so its apparent position and curvature are distorted by
+        refraction. Correcting for this was introduced by Nagelberg <em>et al.</em>,
+        who de-warped each point of the apparent interface before fitting a circle
+        to it. This tool inherits the older, cruder shortcut: fit the circle first,
+        then scale the inner radius and centre distance by a single factor
+        n<sub>cont</sub>/n<sub>phase</sub>. The two agree to first order but are not
+        equivalent, so treat it as an approximation. It is inert when the
+        refractive indices are equal, which is the default.
+      </p>
+
+      <h3 class="font-semibold">Keyboard</h3>
+      <ul>
+        <li><kbd>Enter</kbd> accept this droplet and start the next</li>
+        <li><kbd>Z</kbd> undo the last point &middot; <kbd>Esc</kbd> clear</li>
+        <li><kbd>↑</kbd> <kbd>↓</kbd> step through accepted droplets</li>
+        <li><kbd>F</kbd> fit &middot; <kbd>R</kbd> rotate &middot; <kbd>V</kbd> flip</li>
+        <li><kbd>M</kbd> switch spherical / non-spherical &middot; <kbd>P</kbd> pan &middot; <kbd>L</kbd> labels</li>
+        <li><kbd>Space</kbd> hold to pan &middot; <kbd>+</kbd> <kbd>−</kbd> zoom</li>
+      </ul>
+
+      <p>
+        Browsers cannot decode microscopy TIFFs — export those to PNG first.
+      </p>
+
+      <h3 class="font-semibold">Source and references</h3>
+      <p>
+        This is a rewrite of the MATLAB tool from the supporting information of
+        Djalali, Frank &amp; Zeininger, which needed a MATLAB licence and the Image
+        Processing Toolbox. The geometry is pinned to the original by 94 golden
+        test cases generated from a line-by-line transcription of the MATLAB
+        source.
+      </p>
+      <ol>
+        <li>
+          S. Nagelberg, L. D. Zarzar, N. Nicolas, K. Subramanian, J. A. Kalow,
+          V. Sresht, D. Blankschtein, G. Barbastathis, M. Kreysing, T. M. Swager
+          and M. Kolle, “Reconfigurable and responsive droplet-based compound
+          micro-lenses”, <em>Nat. Commun.</em> <strong>8</strong>, 14673 (2017).
+          <a href="https://doi.org/10.1038/ncomms14673" target="_blank" rel="noopener noreferrer">10.1038/ncomms14673</a>
+        </li>
+        <li>
+          S. Djalali, B. D. Frank and L. Zeininger, “Responsive drop method:
+          quantitative <em>in situ</em> determination of surfactant effectiveness
+          using reconfigurable Janus emulsions”, <em>Soft Matter</em>
+          <strong>16</strong>, 10419–10424 (2020).
+          <a href="https://doi.org/10.1039/D0SM01724H" target="_blank" rel="noopener noreferrer">10.1039/D0SM01724H</a>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline src={`${TOOL}/geometry.js`}></script>
+<script is:inline src={`${TOOL}/viewer.js`}></script>
+<script is:inline src={`${TOOL}/app.js`}></script>
+
+<style>
+  /* Wider than the site's usual prose column — the tool needs the room. */
+  .dca-page {
+    max-width: 84rem;
+  }
+
+  .dca-notes {
+    max-width: 48rem;
+  }
+
+  .dca-notes h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .dca-notes h3 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .dca-notes p,
+  .dca-notes ul,
+  .dca-notes ol {
+    margin-bottom: 0.75rem;
+  }
+
+  .dca-notes ul,
+  .dca-notes ol {
+    padding-left: 1.25rem;
+    list-style: revert;
+  }
+
+  .dca-notes li {
+    margin-bottom: 0.25rem;
+  }
+
+  .dca-notes a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .dca-notes kbd {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    font-size: 0.8em;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0 0.3em;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
