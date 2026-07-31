@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import postFilter from "@/utils/postFilter";
+import { SITE } from "@/config";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft))
+  .filter(postFilter)
+  .sort(
+    (a, b) =>
+      Math.floor(
+        new Date(b.data.modDatetime ?? b.data.pubDatetime).getTime() / 1000
+      ) -
+      Math.floor(
+        new Date(a.data.modDatetime ?? a.data.pubDatetime).getTime() / 1000
+      )
+  );
+---
+
+<Layout title={`Posts | ${SITE.title}`}>
+  <Header />
+  <Main pageTitle="Things I've Made" pageDesc="Extra images, videos, posters, and who knows.">
+    <ul>
+      {posts.map(data => <Card {...data} />)}
+    </ul>
+  </Main>
+
+  <Footer />
+</Layout>
