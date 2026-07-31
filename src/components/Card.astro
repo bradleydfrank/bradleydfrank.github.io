@@ -10,7 +10,12 @@ export interface Props extends CollectionEntry<"blog"> {
 
 const { variant = "h2", data, id, filePath } = Astro.props;
 
-const { title, description, pubDatetime, modDatetime, timezone } = data;
+const { title, description, pubDatetime, modDatetime, timezone, externalURL } =
+  data;
+
+// Entries with an externalURL link straight to the thing itself.
+const href = externalURL ?? getPath(id, filePath);
+const isOffsite = Boolean(externalURL && /^https?:\/\//.test(externalURL));
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -20,7 +25,9 @@ const headerProps = {
 
 <li class="my-6">
   <a
-    href={getPath(id, filePath)}
+    href={href}
+    target={isOffsite ? "_blank" : undefined}
+    rel={isOffsite ? "noopener noreferrer" : undefined}
     class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
   >
     {

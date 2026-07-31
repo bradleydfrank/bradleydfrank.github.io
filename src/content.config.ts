@@ -18,6 +18,9 @@ const blog = defineCollection({
       ogImage: image().or(z.string()).optional(),
       previewVideo: z.string().optional(),
       description: z.string(),
+      // When set, the entry links straight here instead of to its own post page.
+      // Used for things that are the thing itself rather than a write-up of it.
+      externalURL: z.string().optional(),
       canonicalURL: z.string().optional(),
       hideEditPost: z.boolean().optional(),
       timezone: z.string().optional(),
