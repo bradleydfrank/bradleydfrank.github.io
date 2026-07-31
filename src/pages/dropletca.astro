@@ -21,12 +21,9 @@ const description =
   <Header />
   <Breadcrumb />
 
-  <main id="main-content" class="dca-page mx-auto w-full px-4 pb-6">
-    <h1 class="text-2xl font-semibold sm:text-3xl">{title}</h1>
-    <p class="mt-2 mb-6 italic">
-      Six clicks per droplet. Everything runs in this tab — your image is never
-      uploaded, and no server ever sees it.
-    </p>
+  <main id="main-content" class="dca-page mx-auto w-full px-4 pt-2 pb-6">
+    {/* The tool is its own heading visually; keep an h1 for screen readers. */}
+    <h1 class="sr-only">{title}</h1>
 
     <!-- ---------- the tool ---------- -->
     <div class="dca" data-example-url={`${TOOL}/example/janus-droplets.jpg`}>
